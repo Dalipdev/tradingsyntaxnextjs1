@@ -6,7 +6,7 @@ import AnimationWrapper from "@/lib/page-animation"
 import InPageNavigation from "@/components/inpage-navigation.component"
 import Loader from "@/components/loader.component"
 import NoDataMessage from "@/components/nodata.component"
-import BlogPostCard from "@/components/blog-post.component"
+import BlogPostCard from "@/components/blog-post-card.component"
 import LoadMoreDataBtn from "@/components/load-more.component"
 import UserCard from "@/components/usercard.component"
 
