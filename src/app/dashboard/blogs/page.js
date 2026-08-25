@@ -1,6 +1,6 @@
 'use client'
 
-import { useContext, useEffect, useState, useCallback, useMemo, useRef } from 'react'
+import { useContext, useEffect, useState, useCallback, useMemo, useRef, Suspense } from 'react'
 import { UserContext } from '@/components/Providers'
 import { useRouter, useSearchParams } from 'next/navigation'
 import AnimationWrapper from '@/lib/page-animation'
@@ -10,7 +10,7 @@ import InPageNavigation from '@/components/inpage-navigation.component'
 import { ManagePublishedBlogCard, ManageDraftBlogPost } from '@/components/manage-blogcard.component'
 import LoadMoreDataBtn from '@/components/load-more.component'
 
-const DashboardBlogsPage = () => {
+const DashboardBlogsPageContent = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
 
@@ -28,7 +28,6 @@ const DashboardBlogsPage = () => {
     if (access_token === null) router.replace('/signin')
   }, [access_token, router])
 
-  // ✅ Fetch total count separately (replaces filterPaginationData)
   const fetchCount = useCallback(async (draft) => {
     try {
       const res = await fetch(
@@ -77,7 +76,6 @@ const DashboardBlogsPage = () => {
 
       const { blogs: fetchedBlogs } = await res.json()
 
-      // ✅ On page 1 fetch total count; on page > 1 just append — same as home page
       if (page === 1) {
         const totalDocs = await fetchCount(draft)
         setter({
@@ -86,7 +84,6 @@ const DashboardBlogsPage = () => {
           totalDocs,
         })
       } else {
-        // ✅ Append to existing results — simple and reliable
         setter((prev) => {
           if (!prev || !Array.isArray(prev.results)) return prev
           return {
@@ -115,7 +112,6 @@ const DashboardBlogsPage = () => {
     [fetchBlogs]
   )
 
-  // Initial load
   useEffect(() => {
     if (!access_token) return
     const isDraftTab = searchParams.get('tab') === 'draft'
@@ -126,7 +122,6 @@ const DashboardBlogsPage = () => {
     }
   }, [access_token]) // eslint-disable-line
 
-  // Tab change
   useEffect(() => {
     const newPageState = searchParams.get('tab') === 'draft' ? 'draft' : 'published'
     if (newPageState !== pageState) {
@@ -139,7 +134,6 @@ const DashboardBlogsPage = () => {
     }
   }, [searchParams]) // eslint-disable-line
 
-  // ✅ Attach setStateFun so delete works — use the correct setter
   const publishedBlogsWithMeta = useMemo(() => {
     if (!publishedBlogs) return null
     return {
@@ -229,6 +223,14 @@ const DashboardBlogsPage = () => {
         </InPageNavigation>
       </section>
     </AnimationWrapper>
+  )
+}
+
+const DashboardBlogsPage = () => {
+  return (
+    <Suspense fallback={<div className="ts-dash-loading-screen"><Loader /></div>}>
+      <DashboardBlogsPageContent />
+    </Suspense>
   )
 }
 
