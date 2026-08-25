@@ -1,0 +1,426 @@
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+
+@keyframes footerWordmarkIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes footerFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Signature element: a sparkline that draws itself left-to-right,
+   like a chart plotting in real time, ending at a live-data dot. */
+@keyframes footerSignalDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes footerSignalDotIn {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes footerSignalPulse {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 0 rgba(79, 143, 108, 0));
+  }
+  50% {
+    filter: drop-shadow(0 0 5px rgba(79, 143, 108, 0.85));
+  }
+}
+
+/* ============================================================
+   BASE CONTAINER — Institutional finance-journal palette
+   ============================================================ */
+
+.footer *,
+.footer *::before,
+.footer *::after {
+  box-sizing: border-box;
+}
+
+.footer {
+  /* Ink / bone / slate — quiet neutrals, one restrained accent. */
+  --footer-bg: var(--color-bg, #0b0d0f);
+  --footer-text: var(--color-text, #eeeae2);
+  --footer-muted: var(--color-text-muted, #8b9096);
+  --footer-border: var(--color-border, #23272b);
+  --footer-heading: var(--color-text-faint, #5c6268);
+
+  /* "Ledger green" — the single accent, echoing the site's live
+     ticker dot rather than a generic AI-purple/terracotta tell. */
+  --footer-accent: var(--color-accent, #4f8f6c);
+  --footer-accent-soft: rgba(79, 143, 108, 0.16);
+
+  --footer-mono: var(--font-mono, ui-monospace, "SF Mono", "Roboto Mono", Menlo, Consolas, monospace);
+
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--footer-bg);
+  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+  color: var(--footer-text);
+  border-top: 1px solid var(--footer-border);
+  transition: background-color 200ms ease, color 200ms ease;
+  contain: layout style paint;
+}
+
+/* Consistent, visible keyboard focus across every interactive
+   element in the footer. */
+.footer a:focus-visible,
+.footer button:focus-visible {
+  outline: 2px solid var(--footer-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ============================================================
+   WORDMARK SECTION
+   ============================================================ */
+
+.wordmarkWrap {
+  width: 100%;
+  max-width: var(--max-content, 1280px);
+  margin: 0 auto;
+  padding: clamp(32px, 5vw, 64px) clamp(16px, 4vw, 48px) 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.titleStage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: clamp(80px, 12vw, 160px);
+  overflow: hidden;
+}
+
+/* Signature: a sparkline drawn behind the wordmark, terminating
+   in a live-data dot. Replaces the previous moon/spaceship motif
+   with something native to a market-data publication. */
+.signalLine {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.signalPath {
+  fill: none;
+  stroke: var(--footer-accent);
+  stroke-width: 1.25;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.5;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.signalPlaying .signalPath {
+  animation: footerSignalDraw 1.5s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  animation-delay: 0.3s;
+}
+
+.signalDot {
+  fill: var(--footer-accent);
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.signalPlaying .signalDot {
+  animation:
+    footerSignalDotIn 400ms ease forwards,
+    footerSignalPulse 2.4s ease-in-out infinite;
+  animation-delay: 1.8s, 1.8s;
+}
+
+.wordmarkLink {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+  max-width: 100%;
+  text-decoration: none;
+  color: var(--footer-text);
+}
+
+/* Outer element: OWNS the reveal animation (opacity + translateY).
+   Do NOT put a scale()/JS transform on this element — the
+   `footerWordmarkIn` keyframes animate `transform` here, and a
+   `forwards` fill-mode animation always wins over an inline style
+   on the same property, so anything JS sets on `transform` here
+   would get silently wiped out once the animation finishes. */
+.wordmark {
+  display: block;
+  overflow: hidden;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 200ms ease;
+}
+
+.wordmark.wordmarkReveal {
+  animation: footerWordmarkIn 700ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 1.2s;
+}
+
+.wordmarkLink:hover .wordmark {
+  opacity: 0.75;
+}
+
+/* Inner element: the ACTUAL text. This is the element Footer.jsx
+   measures (via its inline fit-to-container effect) and scales
+   with `transform: scale(...)`. Kept on a separate element from
+   the reveal animation so the two transforms never collide. */
+.wordmarkFit {
+  display: block;
+  font-family: var(--font-display, Georgia, "Iowan Old Style", serif);
+  font-size: clamp(1.75rem, 9vw, 6.5rem);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  color: var(--footer-text);
+  text-align: center;
+  white-space: nowrap;
+  text-transform: lowercase;
+  font-variant-caps: all-small-caps;
+  font-feature-settings: "c2sc", "smcp";
+  transform-origin: center center;
+  will-change: transform;
+}
+
+/* Reuses the exact tagline already established on the masthead,
+   so the footer reads as the same publication, not a new voice. */
+.wordmarkTagline {
+  display: block;
+  margin-top: clamp(10px, 1.6vw, 18px);
+  font-family: var(--footer-mono);
+  font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--footer-heading);
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* ============================================================
+   NAVIGATION GRID
+   ============================================================ */
+
+.navGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px 24px;
+  width: 100%;
+  max-width: var(--max-content, 1280px);
+  margin: clamp(32px, 5vw, 56px) auto 0;
+  padding: clamp(24px, 4vw, 48px) clamp(16px, 4vw, 48px);
+  border-top: 1px solid var(--footer-border);
+  animation: footerFadeUp 500ms ease 120ms backwards;
+}
+
+.navCol {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.navHeading {
+  font-family: var(--footer-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--footer-heading);
+  margin-bottom: 4px;
+}
+
+.navLink,
+.navText {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--footer-muted);
+  text-decoration: none;
+  transition: color 180ms ease;
+  word-break: break-word;
+}
+
+a.navLink:hover {
+  color: var(--footer-accent);
+}
+
+.studioSocials {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--footer-border);
+}
+
+.socialRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.socialLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: var(--footer-muted);
+  text-decoration: none;
+  transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease;
+  border-radius: 3px;
+  border: 1px solid transparent;
+}
+
+.socialLink:hover {
+  color: var(--footer-accent);
+  background-color: var(--footer-accent-soft);
+  border-color: var(--footer-border);
+}
+
+/* ============================================================
+   LEGAL BAR — set in mono, like a data/ticker strip
+   ============================================================ */
+
+.legalBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  max-width: var(--max-content, 1280px);
+  margin: 0 auto;
+  padding: 16px clamp(16px, 4vw, 48px);
+  border-top: 1px solid var(--footer-border);
+  font-family: var(--footer-mono);
+}
+
+.legalCopy,
+.legalTag {
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: var(--footer-heading);
+  text-transform: uppercase;
+}
+
+.legalTag strong {
+  color: var(--footer-text);
+  font-weight: 700;
+}
+
+/* ============================================================
+   RESPONSIVE BREAKPOINTS
+   ============================================================ */
+
+/* Desktop: newspaper-style vertical hairlines between columns,
+   only where the 4-column grid is actually active. */
+@media (min-width: 901px) {
+  .navCol {
+    padding-left: 24px;
+    border-left: 1px solid var(--footer-border);
+  }
+
+  .navCol:first-child {
+    padding-left: 0;
+    border-left: none;
+  }
+}
+
+/* Tablet (Under 900px) */
+@media (max-width: 900px) {
+  .navGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px 24px;
+  }
+}
+
+/* Mobile Devices (Under 600px) */
+@media (max-width: 600px) {
+  .navGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px 16px;
+  }
+
+  .legalBar {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    gap: 6px;
+  }
+}
+
+/* Small Mobile Devices (Under 380px) */
+@media (max-width: 380px) {
+  .navGrid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .navCol {
+    align-items: center;
+  }
+
+  .socialRow {
+    justify-content: center;
+  }
+}
+
+/* ============================================================
+   MOTION PREFERENCE
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .wordmark.wordmarkReveal {
+    animation: none;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .signalPlaying .signalPath {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+
+  .signalPlaying .signalDot {
+    animation: none;
+    opacity: 1;
+  }
+
+  .navGrid {
+    animation: none;
+  }
+}

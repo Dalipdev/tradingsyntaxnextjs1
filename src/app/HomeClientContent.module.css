@@ -1,0 +1,2493 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+.editorialOuter {
+  /* ── Type system ──────────────────────────────────────────────────
+     Fraunces carries the "printed ledger" personality — soft ink-trap
+     serif with real optical-size range, used only for headlines so it
+     stays a deliberate accent rather than the whole voice. IBM Plex
+     Sans/Mono do the reading & data work. */
+  --serif: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --sans:  'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  --mono:  'IBM Plex Mono', 'Courier New', monospace;
+
+  --ink:       var(--color-text);
+  --ink2:      var(--color-text-muted);
+  --ink3:      var(--color-text-faint);
+  --ink4:      var(--color-text-faint);
+  --ink5:      var(--color-border-strong);
+  --rule:      var(--color-border);
+  --rule2:     var(--color-border-soft);
+  --cream:     var(--color-bg);
+  --parchment: var(--color-bg-subtle);
+  --surface:   var(--color-surface);
+  --accent:    var(--color-accent);
+  --accent-lt: var(--color-accent-dim);
+  --danger:    var(--color-down);
+
+  /* ── Signature palette — COSMIC MONOCHROME ────────────────────────
+     Pure black / white / gray. What used to be "brass" (warm gold
+     emphasis) and "sapphire" (quiet second voice) are now two
+     luminance steps of white instead of two hues — brass reads as a
+     bright, glowing white; sapphire as a dimmer, cooler-feeling gray.
+
+     IMPORTANT: --brass / --brass-deep are near-white and ONLY safe to
+     use where they sit on a fixed dark/black surface (the cosmic
+     article cards, the ticker label chip, or any spot that pairs them
+     with an explicit dark text color like #14100a). They are NOT safe
+     as text color, border color, or underline color directly on the
+     page's own light/dark surfaces, because in light mode that reads
+     as near-white-on-white (invisible).
+
+     For every one of those page-surface accents (nav tabs, focus
+     rings, sidebar eyebrows, hover states, ledger tick, spinner,
+     newsletter accents, etc.) use --accent-ink instead — it resolves
+     to --ink, so it's dark-on-light in light mode and light-on-dark
+     in dark mode automatically. */
+  --brass:       #f2f2f2;
+  --brass-deep:  #ffffff;
+  --brass-glow:  rgba(255, 255, 255, 0.20);
+  --sapphire:    #9a9a9a;
+  --sapphire-lt: rgba(255, 255, 255, 0.08);
+
+  /* Adaptive accent — legible on both light and dark page themes.
+     Use this (not --brass / --brass-deep) for any accent that renders
+     directly on the page's own surface rather than on the fixed-black
+     cosmic card backgrounds. */
+  --accent-ink:      var(--ink);
+  --accent-ink-glow: color-mix(in srgb, var(--ink) 18%, transparent);
+
+  /* Cosmic card tokens — used only on the lead/secondary/ledger article
+     surfaces below, which are deliberately styled as their own deep-space
+     moment rather than following the page's light/dark theme tokens. */
+  --cosmic-black:   #000000;
+  --cosmic-void:    #0a0a0a;
+  --cosmic-surface: #111111;
+  --cosmic-line:    rgba(255, 255, 255, 0.14);
+  --cosmic-line-lt: rgba(255, 255, 255, 0.07);
+  --cosmic-glow:    rgba(255, 255, 255, 0.22);
+  --cosmic-text:    #f5f5f5;
+  --cosmic-text2:   rgba(245, 245, 245, 0.66);
+  --cosmic-text3:   rgba(245, 245, 245, 0.42);
+
+  --space-2xs: 4px;
+  --space-xs:  7px;
+  --space-sm:  10px;
+  --space-md:  16px;
+  --space-lg:  24px;
+  --space-xl:  32px;
+
+  font-family: var(--sans);
+  color: var(--ink);
+  background: var(--cream);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.editorialOuter :focus-visible {
+  outline: 2px solid var(--accent-ink);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+[data-theme='dark'] .mastheadRibbon {
+  background: var(--color-ticker-bg);
+}
+
+[data-theme='dark'] .tickerWrap {
+  background: var(--color-ticker-bg);
+}
+
+[data-theme='dark'] .tickerTrack {
+  background: var(--color-ticker-bg);
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   MASTHEAD
+   ══════════════════════════════════════════════════════════════════════ */
+.masthead {
+  background: var(--surface);
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  overflow: hidden;
+}
+
+.mastheadRibbon {
+  background: var(--ink);
+  padding: 5px clamp(14px, 3vw, 28px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--sans);
+  font-size: clamp(8.5px, 1.6vw, 10px);
+  font-weight: 500;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.mastheadEdition {
+  color: rgba(255, 255, 255, 0.28);
+}
+
+.mastheadBody {
+  padding: clamp(18px, 3.5vw, 30px) 16px clamp(14px, 2.5vw, 22px);
+  text-align: center;
+  border-bottom: 1px solid var(--rule);
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.mastheadMetaLine {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  font-family: var(--mono);
+  font-size: clamp(8px, 1.6vw, 10px);
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  /* FIX: was var(--brass-deep) (near-white) — invisible on the light
+     masthead surface. Adaptive token keeps it legible in both themes. */
+  color: var(--accent-ink);
+  margin-bottom: var(--space-sm);
+}
+
+.mastheadMetaDash {
+  display: inline-block;
+  width: clamp(18px, 6vw, 36px);
+  height: 1px;
+  background: var(--rule);
+}
+
+.mastheadLogoLink {
+  text-decoration: none;
+}
+
+.mastheadTitle {
+  font-family: var(--serif);
+  font-optical-sizing: auto;
+  font-size: clamp(30px, 6.5vw, 62px);
+  font-weight: 900;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  line-height: 1;
+  margin: 0 0 var(--space-sm);
+}
+
+.mastheadTagline {
+  font-family: var(--sans);
+  font-size: clamp(9px, 1.9vw, 10.5px);
+  font-weight: 400;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin: 0;
+  text-align: center;
+  width: 100%;
+  max-width: 100%;
+  padding: 0 8px;
+  word-break: break-word;
+  line-height: 1.6;
+  box-sizing: border-box;
+}
+
+@media (max-width: 480px) {
+  .mastheadRibbon {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 8px 14px;
+    text-align: center;
+    gap: 4px;
+  }
+  .mastheadEdition {
+    display: none;
+  }
+  .mastheadBody {
+    padding: 16px 12px 14px;
+  }
+}
+
+@media (max-width: 380px) {
+  .mastheadTitle {
+    margin-bottom: var(--space-2xs);
+  }
+  .mastheadTagline {
+    letter-spacing: 0.04em;
+    padding: 0 4px;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   TICKER BAR
+   ══════════════════════════════════════════════════════════════════════ */
+.tickerWrap {
+  background: var(--ink);
+  display: flex;
+  align-items: stretch;
+  height: 32px;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.tickerLabel {
+  /* Intentionally unchanged: this is a bright chip on a fixed dark bar,
+     paired with explicit dark text (#14100a), so it stays correct in
+     both themes as-is. */
+  background: var(--brass);
+  padding: 0 clamp(10px, 2vw, 14px);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--sans);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #14100a;
+  white-space: nowrap;
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+.tickerDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #14100a;
+  animation: livePulse 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes livePulse {
+  0%, 100% { box-shadow: 0 0 0 2px rgba(20, 16, 10, 0.25); }
+  50%       { box-shadow: 0 0 0 5px rgba(20, 16, 10, 0); }
+}
+
+.tickerTrack {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  background: var(--ink);
+  position: relative;
+}
+
+.tickerInner {
+  display: flex;
+  animation: tickerScroll 32s linear infinite;
+  width: max-content;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.tickerInner:hover {
+  animation-play-state: paused;
+}
+
+@keyframes tickerScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.tickerItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 clamp(12px, 2.5vw, 20px);
+  border-right: 1px solid rgba(255, 255, 255, 0.07);
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.tickerSym {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.tickerVal {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.88);
+  white-space: nowrap;
+}
+
+.tickUp {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: var(--color-up);
+  white-space: nowrap;
+}
+
+.tickDn {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: var(--color-down);
+  white-space: nowrap;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   SECTION NAV
+   ══════════════════════════════════════════════════════════════════════ */
+.sectionNav {
+  background: var(--surface);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  width: 100%;
+  overflow: hidden;
+}
+
+.sectionNavInner {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 0 28px;
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sectionNavInner::-webkit-scrollbar {
+  display: none;
+}
+
+.navTab {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--ink4);
+  padding: 13px 14px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: none;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+.navTab:hover {
+  color: var(--ink);
+}
+
+.navTabActive {
+  /* FIX: was var(--brass-deep) / var(--brass) — near-white text and
+     underline vanished against the light nav bar. */
+  color: var(--accent-ink);
+  border-bottom-color: var(--accent-ink);
+}
+
+@media (max-width: 768px) {
+  .sectionNavInner {
+    padding: 0 12px;
+  }
+  .navTab {
+    padding: 12px 11px;
+    font-size: 9px;
+    letter-spacing: 0.09em;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   MARKET STRIP — quiet terminal readout
+   ══════════════════════════════════════════════════════════════════════ */
+.marketStrip {
+  background: var(--parchment);
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.marketStrip::-webkit-scrollbar {
+  display: none;
+}
+
+.stripItem {
+  flex: 1;
+  min-width: clamp(76px, 20vw, 110px);
+  padding: clamp(8px, 1.5vw, 12px) clamp(8px, 2vw, 18px);
+  border-right: 1px solid var(--rule);
+  flex-shrink: 0;
+  box-sizing: border-box;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.stripItem::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 18px;
+  height: 2px;
+  background: transparent;
+  transition: background 0.2s ease;
+}
+
+.stripItem:hover::before {
+  /* FIX: was var(--brass) — nearly invisible tick mark in light mode. */
+  background: var(--accent-ink);
+}
+
+.stripItem:last-child {
+  border-right: none;
+}
+
+.stripLabel {
+  font-family: var(--sans);
+  font-size: clamp(7px, 1.8vw, 9px);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink4);
+  margin-bottom: 3px;
+  text-align: center;
+  width: 100%;
+}
+
+.stripValue {
+  font-family: var(--mono);
+  font-size: clamp(11.5px, 3vw, 17px);
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 3px;
+  text-align: center;
+  width: 100%;
+}
+
+.stripMeta {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  font-family: var(--sans);
+  font-size: clamp(8px, 2vw, 10px);
+  text-align: center;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.stripUp {
+  font-family: var(--mono);
+  font-size: clamp(8px, 1.8vw, 10px);
+  color: var(--color-up, #1D6A4E);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.stripDn {
+  font-family: var(--mono);
+  font-size: clamp(8px, 1.8vw, 10px);
+  color: var(--danger);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.stripSub {
+  font-family: var(--sans);
+  font-size: clamp(7px, 1.5vw, 10px);
+  color: var(--ink4);
+  display: block;
+  margin-top: 2px;
+}
+
+@media (max-width: 640px) {
+  .marketStrip {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    overflow-x: visible;
+  }
+
+  .stripItem {
+    flex: none;
+    min-width: 0;
+    width: 100%;
+    padding: 10px 6px;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .stripItem:nth-child(3n) {
+    border-right: none;
+  }
+  .stripItem:nth-child(n + 4) {
+    border-bottom: none;
+  }
+}
+
+@media (max-width: 420px) {
+  /* FIX: this used to switch grid-template-columns to repeat(2, ...),
+     turning the 6 stat cards into 2-wide / 3-tall. Stays at 3 columns
+     (3 horizontal x 2 vertical) at every width now — padding and type
+     shrink instead so the cards still fit comfortably. */
+  .stripItem {
+    padding: 8px 3px;
+  }
+
+  .stripLabel {
+    font-size: 6.5px;
+    letter-spacing: 0.04em;
+  }
+
+  .stripValue {
+    font-size: 11px;
+  }
+
+  .stripUp,
+  .stripDn {
+    font-size: 7.5px;
+  }
+
+  .stripSub {
+    font-size: 6.5px;
+  }
+}
+
+@media (max-width: 360px) {
+  .stripItem {
+    padding: 7px 2px;
+  }
+
+  .stripValue {
+    font-size: 10px;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   PAGE BODY
+   ══════════════════════════════════════════════════════════════════════ */
+.pageBody {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 0 clamp(12px, 3vw, 40px) 60px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  grid-template-areas: 'main sidebar';
+  gap: 0 48px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+@media (max-width: 1100px) {
+  .pageBody {
+    grid-template-columns: minmax(0, 1fr) 260px;
+    gap: 0 32px;
+  }
+}
+
+@media (max-width: 960px) {
+  .pageBody {
+    grid-template-columns: minmax(0, 1fr) 230px;
+    gap: 0 24px;
+  }
+}
+
+@media (max-width: 880px) {
+  .pageBody {
+    grid-template-columns: minmax(0, 1fr) 210px;
+    gap: 0 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .pageBody {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'main'
+      'mobileNewsletter'
+      'mobileInflation'
+      'sidebar';
+    padding: 0 clamp(10px, 4vw, 20px) 48px;
+    gap: 0;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   MAIN FEED
+   ══════════════════════════════════════════════════════════════════════ */
+.mainFeed {
+  grid-area: main;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.feedHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: clamp(16px, 3vw, 22px) 0 var(--space-md);
+  border-bottom: 2px solid var(--ink);
+  margin-bottom: var(--space-lg);
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.feedHeader::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 46px;
+  height: 2px;
+  /* FIX: was var(--brass) + fixed white glow — invisible underline
+     accent on the light feed header. */
+  background: var(--accent-ink);
+  box-shadow: 0 0 12px var(--accent-ink-glow);
+}
+
+.feedTitle {
+  font-family: var(--sans);
+  font-size: clamp(10px, 1.9vw, 11.5px);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.feedMeta {
+  font-family: var(--sans);
+  font-size: clamp(8.5px, 1.8vw, 9.5px);
+  font-weight: 400;
+  color: var(--ink4);
+  letter-spacing: 0.04em;
+}
+
+.feedMetaLive {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.liveDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-up, #1D6A4E);
+  flex-shrink: 0;
+  animation: socialPulse 2.2s ease-in-out infinite;
+}
+
+.backBtn {
+  font-family: var(--sans);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  /* FIX: was var(--brass-deep) — invisible on light surface. */
+  color: var(--accent-ink);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity 0.15s;
+}
+.backBtn:hover { opacity: 0.65; }
+
+/* ══════════════════════════════════════════════════════════════════════
+   ARTICLE — SHARED ELEMENTS
+   ══════════════════════════════════════════════════════════════════════ */
+.articleEyebrow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2xs) var(--space-xs);
+  margin-bottom: 8px;
+}
+
+/* Signature badge: a "wax seal" tab — a glowing white-on-black chip with
+   a flat top and cut corner. Left unchanged: it always sits on the
+   fixed-black cosmic card surfaces (lead/secondary/ledger), so the
+   white background + explicit black (#000000) text stays correct in
+   both page themes. */
+.articleSectionTag {
+  font-family: var(--sans);
+  font-size: clamp(7.5px, 1.5vw, 8.5px);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #000000;
+  background: linear-gradient(90deg, #ffffff, #d0d0d0);
+  box-shadow: 0 0 0 1px rgba(20, 16, 10, 0.10);
+  padding: 4px 10px;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 6px 100%, 0 calc(100% - 6px));
+  line-height: 1.4;
+}
+
+[data-theme='dark'] .articleSectionTag {
+  /* On the black cosmic cards the chip glows instead of needing an
+     edge — restores the original look exactly. */
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.28);
+}
+
+.eyebrowSep {
+  font-size: 9px;
+  color: var(--ink4);
+  line-height: 1;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.articleCategoryLabel {
+  font-family: var(--sans);
+  font-size: clamp(8px, 1.6vw, 9px);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink3);
+}
+
+.bylineRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs) var(--space-xs);
+  flex-wrap: wrap;
+  font-family: var(--sans);
+  font-size: clamp(9.5px, 2vw, 10.5px);
+  color: var(--ink4);
+  row-gap: 4px;
+}
+
+.bylineAuthor {
+  font-weight: 700;
+  color: var(--ink2);
+  font-size: clamp(9.5px, 2vw, 10.5px);
+}
+
+.bylineSep {
+  color: var(--ink4);
+  font-size: 10px;
+  line-height: 1;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.articleImg {
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.6s cubic-bezier(0.22, 0.9, 0.3, 1);
+}
+
+/* Placeholder for posts with no banner image.
+   FIX: this used to be a fixed near-black starfield regardless of site
+   theme. It's now theme-aware: a plain light tile matching the page's
+   own surface in light mode, and the original starfield-on-black look
+   only in dark mode (see the [data-theme='dark'] override lower down). */
+.articleImgPlaceholder {
+  width: 100%;
+  height: 100%;
+  background: var(--parchment);
+}
+
+[data-theme='dark'] .articleImgPlaceholder {
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.5)  1px, transparent 1px),
+    radial-gradient(circle at 60% 70%, rgba(255,255,255,0.35) 1px, transparent 1px),
+    radial-gradient(circle at 85% 20%, rgba(255,255,255,0.4)  1px, transparent 1px),
+    radial-gradient(circle at 40% 85%, rgba(255,255,255,0.3)  1px, transparent 1px),
+    radial-gradient(circle at 75% 55%, rgba(255,255,255,0.25) 1px, transparent 1px),
+    linear-gradient(150deg, var(--cosmic-surface), var(--cosmic-black) 75%);
+  background-size: 120px 120px, 160px 160px, 140px 140px, 180px 180px, 200px 200px, 100% 100%;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   ARTICLE — LEAD (index 0) — hero
+   THEME-AWARE: plain light card + dark ink text by default (matches the
+   rest of the light-theme page — no more white-on-white on hover), and
+   the original "deep-space" black/starfield treatment only when
+   [data-theme='dark'] is active, layered on underneath via overrides.
+   A narrower image column (32% vs the old 40%) keeps the headline
+   leading and the image reading as support, not competition.
+   ══════════════════════════════════════════════════════════════════════ */
+.articleLead {
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--surface);
+  box-shadow: 0 10px 28px rgba(20, 16, 10, 0.06);
+  transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+  margin-bottom: var(--space-lg);
+  position: relative;
+}
+
+.articleLead::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--accent-ink), transparent);
+  box-shadow: 0 0 16px var(--accent-ink-glow);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+.articleLead:hover::before {
+  opacity: 0.9;
+}
+
+.articleLead:hover {
+  box-shadow: 0 18px 40px rgba(20, 16, 10, 0.10);
+  transform: translateY(-4px);
+  border-color: var(--ink5);
+}
+
+/* Dark-mode override: restores the original deep-space card exactly
+   as before. */
+[data-theme='dark'] .articleLead {
+  border-color: var(--cosmic-line);
+  background:
+    radial-gradient(circle at 12% 22%, rgba(255,255,255,0.55) 0.6px, transparent 0.6px),
+    radial-gradient(circle at 78% 58%, rgba(255,255,255,0.4)  0.6px, transparent 0.6px),
+    radial-gradient(circle at 48% 88%, rgba(255,255,255,0.5)  0.6px, transparent 0.6px),
+    radial-gradient(circle at 92% 12%, rgba(255,255,255,0.3)  0.6px, transparent 0.6px),
+    linear-gradient(160deg, var(--cosmic-surface) 0%, var(--cosmic-black) 100%);
+  background-size: 180px 180px, 220px 220px, 260px 260px, 300px 300px, 100% 100%;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+}
+
+[data-theme='dark'] .articleLead::before {
+  background: linear-gradient(90deg, transparent, #ffffff, transparent);
+  box-shadow: 0 0 16px rgba(255, 255, 255, 0.6);
+}
+
+[data-theme='dark'] .articleLead:hover {
+  box-shadow: 0 32px 70px rgba(0, 0, 0, 0.7), 0 0 46px rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.articleLeadLink {
+  display: grid;
+  grid-template-columns: 1fr minmax(210px, 32%);
+  align-items: stretch;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Ensure titles inside linked article cards keep their heading color
+   (prevents parent anchor/link color from forcing a blue tint). */
+.articleLeadLink .articleLeadTitle {
+  color: inherit !important;
+}
+
+@media (max-width: 640px) {
+  .articleLeadLink {
+    grid-template-columns: 1fr;
+  }
+}
+
+.articleLeadContent {
+  min-width: 0;
+  padding: clamp(22px, 2.8vw, 34px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.articleLeadTitle {
+  font-family: var(--serif);
+  font-optical-sizing: auto;
+  font-size: clamp(20px, 2.8vw, 30px);
+  font-weight: 700;
+  line-height: 1.08;
+  color: #131722;
+  letter-spacing: -0.03em;
+  margin-bottom: 12px;
+  transition: color 0.15s ease;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+@media (max-width: 480px) {
+  .articleLeadTitle {
+    font-size: 20px;
+    line-height: 1.2;
+  }
+}
+
+@media (max-width: 380px) {
+  .articleLeadTitle {
+    font-size: 18.5px;
+  }
+}
+
+.articleLeadLink:hover .articleLeadTitle {
+  color: var(--accent-ink);
+}
+
+/* Dark-mode override: restores the original white text-fill gradient
+   used on the black cosmic card. */
+[data-theme='dark'] .articleLeadTitle {
+  background: linear-gradient(120deg, #ffffff 0%, #a8a8a8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+  transition: text-shadow 0.15s ease;
+}
+
+[data-theme='dark'] .articleLeadLink:hover .articleLeadTitle {
+  background: linear-gradient(120deg, #ffffff 0%, #ffffff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 34px rgba(255, 255, 255, 0.22);
+}
+
+.articleLeadLink:hover .articleImg {
+  transform: scale(1.045);
+}
+
+.articleLeadDeck {
+  font-family: var(--sans);
+  font-size: clamp(12.5px, 1.6vw, 14px);
+  font-weight: 500;
+  line-height: 1.6;
+  color: #3a4253;
+  margin-bottom: 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+[data-theme='dark'] .articleLeadDeck {
+  color: var(--cosmic-text2);
+}
+
+.articleLead .bylineRow {
+  color: var(--ink4);
+}
+
+.articleLead .bylineAuthor {
+  color: var(--ink2);
+}
+
+.articleLead .bylineSep,
+.articleLead .eyebrowSep {
+  color: var(--ink4);
+}
+
+[data-theme='dark'] .articleLead .bylineRow {
+  color: var(--cosmic-text3);
+}
+
+[data-theme='dark'] .articleLead .bylineAuthor {
+  color: var(--cosmic-text2);
+}
+
+[data-theme='dark'] .articleLead .bylineSep,
+[data-theme='dark'] .articleLead .eyebrowSep {
+  color: var(--cosmic-text3);
+}
+
+.articleLeadImageWrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-left: 1px solid var(--rule);
+  display: block;
+}
+
+.articleLeadImageWrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(200deg, transparent 55%, rgba(0,0,0,0.18) 100%);
+  pointer-events: none;
+}
+
+[data-theme='dark'] .articleLeadImageWrap {
+  border-left-color: var(--cosmic-line);
+}
+
+[data-theme='dark'] .articleLeadImageWrap::after {
+  background:
+    radial-gradient(circle at 70% 28%, rgba(255,255,255,0.16), transparent 60%),
+    linear-gradient(200deg, transparent 45%, rgba(0,0,0,0.65) 100%);
+}
+
+@media (max-width: 640px) {
+  .articleLeadContent,
+  .articleSecondaryContent {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .articleLeadImageWrap {
+    order: -1;
+    aspect-ratio: 2 / 1;
+    min-height: 0;
+    border-left: none;
+    border-bottom: 1px solid var(--rule);
+  }
+  [data-theme='dark'] .articleLeadImageWrap {
+    border-bottom-color: var(--cosmic-line);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   ARTICLE — SECONDARY (index 1 & 2)
+   THEME-AWARE, same approach as the lead card above: light card + dark
+   ink text by default, cosmic black treatment restored only in dark
+   mode. Thumbnail is 2:1 (was 16:9) so the shorter image leaves the
+   title fully visible instead of squeezing it into a couple of clipped
+   lines.
+   ══════════════════════════════════════════════════════════════════════ */
+.secondaryGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-lg);
+  margin: 0 0 var(--space-lg);
+}
+
+@media (max-width: 640px) {
+  .secondaryGrid {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+}
+
+.articleSecondary {
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--surface);
+  box-shadow: 0 6px 18px rgba(20, 16, 10, 0.05);
+  transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+}
+
+.articleSecondary:hover {
+  box-shadow: 0 14px 30px rgba(20, 16, 10, 0.09);
+  transform: translateY(-4px);
+  border-color: var(--ink5);
+}
+
+[data-theme='dark'] .articleSecondary {
+  border-color: var(--cosmic-line);
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.45) 0.6px, transparent 0.6px),
+    radial-gradient(circle at 70% 70%, rgba(255,255,255,0.35) 0.6px, transparent 0.6px),
+    radial-gradient(circle at 85% 15%, rgba(255,255,255,0.3)  0.6px, transparent 0.6px),
+    linear-gradient(160deg, var(--cosmic-surface) 0%, var(--cosmic-black) 100%);
+  background-size: 150px 150px, 190px 190px, 220px 220px, 100% 100%;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme='dark'] .articleSecondary:hover {
+  box-shadow: 0 26px 54px rgba(0, 0, 0, 0.65), 0 0 34px rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.articleSecondaryLink {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+}
+
+.articleSecondaryLink:hover .articleImg {
+  transform: scale(1.06);
+}
+
+.articleSecondaryContent {
+  min-width: 0;
+  padding: 16px 18px 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.articleSecondaryTitle {
+  font-family: var(--serif);
+  font-optical-sizing: auto;
+  font-size: clamp(16px, 2vw, 19px);
+  font-weight: 700;
+  line-height: 1.2;
+  color: #171d2b;
+  letter-spacing: -0.018em;
+  margin-bottom: 7px;
+  transition: color 0.15s ease;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@media (max-width: 480px) {
+  .articleSecondaryTitle {
+    font-size: 15.5px;
+  }
+}
+
+.articleSecondaryLink:hover .articleSecondaryTitle {
+  /* FIX: was a hardcoded #ffffff — invisible on the new light card.
+     Uses the theme-adaptive accent so it stays legible in both modes. */
+  color: var(--accent-ink);
+}
+
+[data-theme='dark'] .articleSecondaryTitle {
+  color: var(--cosmic-text);
+}
+
+[data-theme='dark'] .articleSecondaryLink:hover .articleSecondaryTitle {
+  color: #ffffff;
+  text-shadow: 0 0 18px rgba(255, 255, 255, 0.22);
+}
+
+.articleSecondaryDeck {
+  font-family: var(--sans);
+  font-size: clamp(10.5px, 1.4vw, 12px);
+  font-weight: 500;
+  line-height: 1.55;
+  color: #3a4253;
+  margin-bottom: 9px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+[data-theme='dark'] .articleSecondaryDeck {
+  color: var(--cosmic-text2);
+}
+
+.articleSecondary .bylineRow {
+  color: var(--ink4);
+}
+
+.articleSecondary .bylineAuthor {
+  color: var(--ink2);
+}
+
+[data-theme='dark'] .articleSecondary .bylineRow {
+  color: var(--cosmic-text3);
+}
+
+[data-theme='dark'] .articleSecondary .bylineAuthor {
+  color: var(--cosmic-text2);
+}
+
+.articleThumbWrap {
+  order: -1;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-bottom: 1px solid var(--rule);
+}
+
+.articleThumbWrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(200deg, transparent 60%, rgba(0,0,0,0.14) 100%);
+  pointer-events: none;
+}
+
+[data-theme='dark'] .articleThumbWrap {
+  border-bottom-color: var(--cosmic-line);
+}
+
+[data-theme='dark'] .articleThumbWrap::after {
+  background: radial-gradient(circle at 65% 30%, rgba(255,255,255,0.15), transparent 60%);
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   ARTICLE — LEDGER LIST (index 3+)
+   Text-only by design: only the lead + two secondary cards carry images,
+   so the eye has exactly one place to land on visuals per screen. Below
+   that the page reads like a ledger — a tight, scannable list of
+   headlines set by a left glowing tick, not a diluted grid of small
+   thumbnails competing with the real story art above.
+   ══════════════════════════════════════════════════════════════════════ */
+.compactGrid {
+  border-top: 2px solid var(--ink);
+  margin-top: 4px;
+  display: flex;
+  flex-direction: column;
+}
+
+.articleCompact {
+  border-bottom: 1px solid var(--rule2);
+}
+
+.articleCompactLink {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  padding: 16px 4px 16px 16px;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  transition: background 0.15s ease, padding-left 0.15s ease;
+}
+
+.articleCompactLink::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  /* FIX: was a fixed white gradient/glow — invisible on the light
+     ledger rows. Uses the page's own ink color so it shows on both
+     light and dark surfaces. */
+  background: linear-gradient(180deg, var(--accent-ink), transparent);
+  box-shadow: 0 0 10px var(--accent-ink-glow);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.articleCompactLink:hover {
+  background: var(--parchment);
+  padding-left: 22px;
+}
+
+.articleCompactLink:hover::before {
+  opacity: 1;
+}
+
+.articleCompactMeta {
+  flex-shrink: 0;
+  width: 96px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 2px;
+}
+
+.articleCompactMeta .articleSectionTag {
+  align-self: flex-start;
+}
+
+.articleCompactBody {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.articleCompactTitle {
+  font-family: var(--serif);
+  font-optical-sizing: auto;
+  font-size: clamp(15.5px, 2vw, 17px);
+  font-weight: 700;
+  line-height: 1.24;
+  color: #171d2b;
+  letter-spacing: -0.015em;
+  margin-bottom: var(--space-xs);
+  transition: color 0.15s ease, text-shadow 0.15s ease;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* FIX: this title had no dark-theme override at all — it stayed on the
+   hardcoded light-mode navy (#171d2b), which reads as a clearly blue
+   headline against the black dark-theme background. Every other title
+   (lead, secondary) already remaps in dark mode; this brings the ledger
+   rows in line. */
+[data-theme='dark'] .articleCompactTitle {
+  color: var(--cosmic-text);
+}
+
+.articleCompactLink:hover .articleCompactTitle {
+  color: var(--accent-ink);
+}
+
+[data-theme='dark'] .articleCompactLink:hover .articleCompactTitle {
+  color: #ffffff;
+  text-shadow: 0 0 18px rgba(255, 255, 255, 0.22);
+}
+.articleCompactLink:hover .articleCompactTitle {
+  /* FIX: was var(--brass-deep) — invisible on the light ledger. */
+  color: var(--accent-ink);
+}
+
+@media (max-width: 560px) {
+  .articleCompactMeta {
+    display: none;
+  }
+  .articleCompactLink {
+    padding: 14px 4px;
+  }
+  .articleCompactLink:hover {
+    padding-left: 12px;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   FEATURED TAIL
+   ══════════════════════════════════════════════════════════════════════ */
+.featuredTailGrid {
+  border-top: 2px solid var(--ink);
+  padding-top: var(--space-lg);
+  margin-top: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   LOAD MORE / LOADER
+   ══════════════════════════════════════════════════════════════════════ */
+.loadMoreWrap {
+  padding: 28px 0 40px;
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 480px) {
+  .loadMoreWrap {
+    padding: 24px 0 32px;
+  }
+  .loadMoreBtn {
+    width: 100%;
+    max-width: 320px;
+  }
+}
+
+.loadMoreBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 30px;
+  border-radius: 2px;
+  border: 1px solid var(--ink);
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  min-height: 42px;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.loadMoreBtn:hover:not(:disabled) {
+  /* Intentionally unchanged: bright surface paired with explicit dark
+     text (#14100a) — correct in both themes as-is. */
+  border-color: var(--brass);
+  background: var(--brass);
+  color: #14100a;
+}
+
+.loadMoreBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.loadMoreSpinner {
+  width: 13px;
+  height: 13px;
+  border: 2px solid var(--rule);
+  /* FIX: was var(--brass) — the spinning arc was nearly invisible on
+     a light track in light mode. */
+  border-top-color: var(--accent-ink);
+  border-radius: 50%;
+  animation: loadMoreSpin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes loadMoreSpin {
+  to { transform: rotate(360deg); }
+}
+
+.loaderWrap {
+  padding: 60px 0;
+  display: flex;
+  justify-content: center;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   SIDEBAR
+   ══════════════════════════════════════════════════════════════════════ */
+.sidebar {
+  grid-area: sidebar;
+  min-width: 0;
+  width: 100%;
+  border-left: 1px solid var(--rule);
+  padding-left: var(--space-xl);
+  padding-top: 0;
+  padding-right: 0;
+  margin: 0;
+  box-sizing: border-box;
+  position: static;
+  background: var(--cream);
+}
+
+@media (max-width: 960px) {
+  .sidebar {
+    padding-left: 22px;
+  }
+}
+
+@media (max-width: 880px) {
+  .sidebar {
+    padding-left: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    border-left: none;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    border-top: 2px solid var(--ink);
+    padding-top: 28px !important;
+    margin-top: var(--space-xl);
+    width: 100% !important;
+    max-width: 100% !important;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    overflow: visible;
+  }
+}
+
+.sidebarWidget {
+  padding: 22px 0 0 0 !important;
+  margin: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  position: static !important;
+  z-index: auto !important;
+}
+
+@media (max-width: 768px) {
+  .sidebarWidget {
+    padding: 20px 16px 0 16px !important;
+  }
+}
+
+.widgetHeader {
+  margin-bottom: var(--space-sm);
+  width: 100%;
+}
+
+.widgetHeaderRow {
+  margin-bottom: var(--space-sm);
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.widgetEyebrow {
+  display: block;
+  font-family: var(--sans);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  /* FIX: was var(--brass-deep) — invisible label text on light sidebar. */
+  color: var(--accent-ink);
+  margin-bottom: 3px;
+  text-align: left;
+}
+
+.widgetTitle {
+  font-family: var(--sans);
+  font-size: clamp(10.5px, 2vw, 11px);
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink);
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: var(--space-xs);
+  margin: 0;
+  width: 100%;
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: keep-all;
+  box-sizing: border-box;
+}
+
+@media (max-width: 480px) {
+  .widgetTitle {
+    letter-spacing: 0.06em;
+  }
+}
+
+.editorialRule {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 22px 0 0;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .editorialRule {
+    margin: 22px 16px 0;
+    width: calc(100% - 32px);
+  }
+}
+
+/* ── Markets Table ── */
+.marketTable {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.marketRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-xs) 0;
+  border-bottom: 1px solid var(--rule2);
+  gap: var(--space-sm);
+  width: 100%;
+}
+
+.marketRow:last-child {
+  border-bottom: none;
+}
+
+.marketSym {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink2);
+  letter-spacing: 0.02em;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.marketRight {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-shrink: 0;
+  justify-content: flex-end;
+}
+
+.marketPrice {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ink);
+  white-space: nowrap;
+  text-align: right;
+}
+
+.marketUp {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--color-up, #1D6A4E);
+  white-space: nowrap;
+  min-width: 56px;
+  text-align: right;
+  display: inline-block;
+}
+
+.marketDn {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--danger);
+  white-space: nowrap;
+  min-width: 56px;
+  text-align: right;
+  display: inline-block;
+}
+
+/* ── Trending Items ── */
+.trendItem {
+  display: flex;
+  gap: 13px;
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid var(--rule2);
+  align-items: flex-start;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.trendItem:last-child {
+  border-bottom: none;
+}
+
+.trendNum {
+  font-family: var(--mono);
+  font-size: 19px;
+  font-weight: 500;
+  /* FIX: was var(--brass) — near-white numerals were unreadable on
+     the light sidebar surface. */
+  color: var(--accent-ink);
+  line-height: 1;
+  min-width: 26px;
+  flex-shrink: 0;
+  padding-top: 6px;
+  text-align: left;
+}
+
+.trendContent {
+  min-width: 0;
+  flex: 1 1 auto;
+  width: 100%;
+}
+
+.trendLink {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+}
+
+.trendTag {
+  display: block;
+  font-family: var(--sans);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--sapphire);
+  margin-bottom: 4px;
+  text-align: left;
+}
+
+.trendTitle {
+  font-family: var(--serif);
+  font-optical-sizing: auto;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.36;
+  color: var(--ink);
+  margin: 0 0 5px;
+  transition: color 0.15s ease;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  text-align: left;
+  display: block;
+  width: 100%;
+}
+
+.trendLink:hover .trendTitle {
+  /* FIX: was var(--brass-deep) — invisible hover state in light mode. */
+  color: var(--accent-ink);
+}
+
+.trendAuthor {
+  font-family: var(--sans);
+  font-size: 9.5px;
+  color: var(--ink4);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
+  display: block;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   NEWSLETTER (outer frame)
+   ══════════════════════════════════════════════════════════════════════ */
+.newsletter {
+  background: var(--parchment);
+  border: 1px solid var(--rule);
+  /* FIX: was var(--brass) — near-white top accent border vanished on
+     the light parchment newsletter panel. */
+  border-top: 2px solid var(--accent-ink);
+  border-radius: 2px;
+  padding: 22px 18px !important;
+  margin: 4px 0 0 0 !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  text-align: left;
+  position: static !important;
+  z-index: auto !important;
+  box-shadow: 0 4px 18px rgba(23, 20, 12, 0.04);
+}
+
+@media (max-width: 768px) {
+  .newsletter {
+    width: 100% !important;
+    margin: 4px 0 0 0 !important;
+    padding: 20px 16px !important;
+  }
+}
+
+.newsletter .widgetEyebrow {
+  color: var(--accent-ink);
+  text-align: left;
+}
+
+.newsletter .widgetTitle {
+  color: var(--ink);
+  border-bottom-color: var(--rule);
+  text-align: left;
+}
+
+.newsletterDesc {
+  font-family: var(--sans);
+  font-size: 11.5px;
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--ink3);
+  margin-bottom: var(--space-md);
+  text-align: left;
+  width: 100%;
+}
+
+.newsletterForm {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.newsletterInput {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 11.5px;
+  padding: 10px 12px;
+  outline: none;
+  transition: border-color 0.15s ease;
+  border-radius: 2px;
+  -webkit-appearance: none;
+  box-sizing: border-box;
+}
+
+.newsletterInput::placeholder {
+  color: var(--ink4);
+}
+
+.newsletterInput:focus {
+  /* FIX: was var(--brass) — the focus border was invisible against
+     the light input field. */
+  border-color: var(--accent-ink);
+}
+
+.newsletterBtn {
+  width: 100%;
+  background: var(--ink);
+  border: none;
+  color: var(--cream);
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  padding: 11px 12px;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background 0.15s ease, color 0.15s ease;
+  min-height: 40px;
+  box-sizing: border-box;
+}
+
+.newsletterBtn:hover {
+  /* Intentionally unchanged: bright surface paired with explicit dark
+     text (#14100a) — correct in both themes as-is. */
+  background: var(--brass);
+  color: #14100a;
+}
+
+.newsletterFine {
+  font-family: var(--sans);
+  font-size: 9.5px;
+  color: var(--ink4);
+  margin-top: 8px;
+  line-height: 1.4;
+  text-align: left;
+}
+
+.mobileNewsletter {
+  display: none;
+  grid-area: mobileNewsletter;
+  width: 100%;
+  max-width: 100%;
+  padding: 0 16px;
+  box-sizing: border-box;
+  position: static;
+}
+
+.desktopNewsletter {
+  display: block;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .mobileNewsletter {
+    display: block;
+    margin-top: var(--space-xl);
+    padding-top: var(--space-lg);
+    padding-left: 16px;
+    padding-right: 16px;
+    border-top: 1px solid var(--rule);
+  }
+  .desktopNewsletter {
+    display: none;
+  }
+}
+
+/* Global inflation map removed from the homepage experience. */
+
+.inflationSection {
+  padding: 28px 0 8px;
+}
+
+.inflationHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.inflationTitle {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 0;
+}
+
+.inflTabs {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.inflTab {
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  color: var(--ink4);
+  font-family: var(--sans);
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  min-height: 30px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.inflTab:hover {
+  color: var(--ink);
+  border-color: var(--ink5);
+}
+
+.inflTabActive {
+  background: var(--ink);
+  color: var(--cream);
+  border-color: var(--ink);
+}
+
+.inflSource {
+  font-family: var(--sans);
+  font-size: 9px;
+  color: var(--ink4);
+  margin-left: 4px;
+  white-space: nowrap;
+}
+
+.inflationMapWrapper {
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  position: relative;
+  min-height: 220px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.fullscreenMap {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  border-radius: 0;
+  border: none;
+}
+
+.inflMapLoading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--sans);
+  font-size: 11.5px;
+  color: var(--ink4);
+}
+
+.inflFullscreenBtn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 25;
+  padding: 7px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10);
+  transition: opacity 0.15s ease, background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.inflFullscreenBtn:hover {
+  /* Intentionally unchanged: bright surface paired with explicit dark
+     text (#14100a) — correct in both themes as-is. */
+  opacity: 1;
+  border-color: var(--brass);
+  color: #14100a;
+  background: var(--brass);
+}
+
+.inflTooltip {
+  position: absolute;
+  pointer-events: none;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 10px 14px;
+  min-width: 155px;
+  z-index: 20;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.09);
+}
+
+.inflTooltipName {
+  font-family: var(--sans);
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 3px;
+}
+
+.inflTooltipVal {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink4);
+  margin-bottom: 7px;
+}
+
+.inflTooltipBar {
+  height: 3px;
+  border-radius: 2px;
+  min-width: 4px;
+  transition: width 0.1s ease;
+}
+
+.inflLegend {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.inflLegendLabel {
+  font-family: var(--sans);
+  font-size: 9px;
+  color: var(--ink4);
+  white-space: nowrap;
+}
+
+.inflLegendBar {
+  flex: 1;
+  min-width: 120px;
+  height: 7px;
+  border-radius: 4px;
+  position: relative;
+}
+
+.inflLegendTick {
+  position: absolute;
+  top: 11px;
+  font-family: var(--sans);
+  font-size: 8.5px;
+  color: var(--ink4);
+}
+
+.inflStatsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: var(--space-lg);
+}
+
+/* FIX: this used to switch to repeat(2, ...) below 420px, which turned
+   the 6 cards into a 2-wide / 3-tall stack. Stays at 3 columns (3
+   horizontal x 2 vertical) at every width now — padding, gap, and
+   type scale down instead so the cards still fit comfortably. */
+@media (max-width: 420px) {
+  .inflStatsGrid {
+    gap: 6px;
+  }
+}
+
+@media (max-width: 360px) {
+  .inflStatsGrid {
+    gap: 5px;
+  }
+}
+
+.inflStatCard {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 10px 12px;
+  min-width: 0;
+}
+
+@media (max-width: 420px) {
+  .inflStatCard {
+    padding: 8px 7px;
+  }
+}
+
+@media (max-width: 360px) {
+  .inflStatCard {
+    padding: 7px 5px;
+  }
+}
+
+.inflStatLabel {
+  font-family: var(--sans);
+  font-size: 8.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ink4);
+  margin-bottom: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 420px) {
+  .inflStatLabel {
+    font-size: 7.5px;
+    letter-spacing: 0.04em;
+  }
+}
+
+.inflStatValue {
+  font-family: var(--mono);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1;
+  margin-bottom: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 420px) {
+  .inflStatValue {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 360px) {
+  .inflStatValue {
+    font-size: 12.5px;
+  }
+}
+
+.inflStatSub {
+  font-family: var(--sans);
+  font-size: 10px;
+  color: var(--ink4);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 420px) {
+  .inflStatSub {
+    font-size: 8.5px;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   COT FULL WIDTH ROW
+   ══════════════════════════════════════════════════════════════════════ */
+.cotFullWidthRow {
+  width: 100%;
+  padding: 0 clamp(12px, 3vw, 24px) 56px;
+  box-sizing: border-box;
+  border-top: 1px solid var(--rule);
+  margin-top: 8px;
+}
+
+@media (max-width: 768px) {
+  .cotFullWidthRow {
+    padding: 0 clamp(10px, 4vw, 16px) 40px;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   MASTHEAD ROOT — standalone wrapper (blog pages)
+   ══════════════════════════════════════════════════════════════════════ */
+.mastheadRoot {
+  --serif: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --sans:  'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  --mono:  'IBM Plex Mono', 'Courier New', monospace;
+
+  --ink:       var(--color-text);
+  --ink2:      var(--color-text-muted);
+  --ink3:      var(--color-text-faint);
+  --ink4:      var(--color-text-faint);
+  --ink5:      var(--color-border-strong);
+  --rule:      var(--color-border);
+  --rule2:     var(--color-border-soft);
+  --cream:     var(--color-bg);
+  --parchment: var(--color-bg-subtle);
+  --surface:   var(--color-surface);
+  --accent:    var(--color-accent);
+  --accent-lt: var(--color-accent-dim);
+  --danger:    var(--color-down);
+  --brass:     #f2f2f2;
+  --brass-deep:#ffffff;
+  --sapphire:  #9a9a9a;
+  --accent-ink: var(--ink);
+  --accent-ink-glow: color-mix(in srgb, var(--ink) 18%, transparent);
+
+  --space-2xs: 4px;
+  --space-xs:  7px;
+  --space-sm:  10px;
+  --space-md:  16px;
+  --space-lg:  24px;
+  --space-xl:  32px;
+
+  background: var(--surface);
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  width: 100%;
+  overflow: hidden;
+}
+
+[data-theme='dark'] .mastheadRoot .mastheadRibbon {
+  background: var(--color-ticker-bg);
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   SOCIAL BAR
+   ══════════════════════════════════════════════════════════════════════ */
+.socialBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px clamp(14px, 3vw, 28px);
+  min-height: 36px;
+  border-top: 1px solid var(--rule);
+  background: var(--surface);
+  row-gap: 8px;
+  column-gap: 12px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.socialIcons {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+  flex: 1 1 auto;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.socialIcons::-webkit-scrollbar {
+  display: none;
+}
+
+.socialLabel {
+  font-family: var(--sans);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--ink4);
+  margin-right: 2px;
+  flex-shrink: 0;
+}
+
+.socialDivider {
+  display: inline-block;
+  width: 1px;
+  height: 13px;
+  background: var(--rule);
+  margin: 0 8px;
+  flex-shrink: 0;
+}
+
+.socialIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 3px;
+  color: var(--ink4);
+  text-decoration: none;
+  transition: color 0.15s ease, background 0.15s ease;
+  flex-shrink: 0;
+}
+
+.socialIcon:hover {
+  color: var(--ink);
+  background: var(--parchment);
+}
+
+.trendBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px 8px 4px 7px;
+  border-radius: 999px;
+  border: 1px solid var(--rule);
+  background: var(--parchment);
+  font-family: var(--sans);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.trendBtn:hover {
+  /* FIX: was var(--brass) border/text + var(--brass-glow) background —
+     all near-white, so the "live" button hover state was unreadable
+     on the light social bar. */
+  border-color: var(--accent-ink);
+  background: var(--accent-ink-glow);
+  color: var(--accent-ink);
+}
+
+.trendBtn:hover .trendBtnDot {
+  background: var(--accent-ink);
+  animation: none;
+}
+
+.trendBtnLabel {
+  display: inline-block;
+}
+
+.trendBtnDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #34A853;
+  flex-shrink: 0;
+  animation: socialPulse 2.2s ease-in-out infinite;
+}
+
+@keyframes socialPulse {
+  0%, 100% { opacity: 1;   transform: scale(1);   }
+  50%       { opacity: 0.4; transform: scale(0.75); }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   SOCIAL BAR — MOBILE FIX
+   The button used to get its own `order` value and the bar kept
+   `flex-wrap: wrap`, so once the icon strip + button couldn't both fit
+   on one line, "Add on Google" wrapped onto a line above the icons.
+   Now the bar never wraps: all 8 icons shrink (instead of scrolling)
+   to make room, and the button shrinks alongside them, eventually
+   dropping its text label so only the dot + Google glyph remain —
+   everything stays on one row and fully visible, no scrollbar.
+   ══════════════════════════════════════════════════════════════════════ */
+@media (max-width: 640px) {
+  .socialBar {
+    flex-direction: row;
+    flex-wrap: nowrap;              /* keep icons + button on one line */
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px clamp(10px, 4vw, 20px) 12px;
+  }
+
+  .socialIcons {
+    order: 1;
+    justify-content: space-between;
+    overflow-x: visible !important; /* no scrollbar — icons shrink instead */
+    flex: 1 1 auto;
+    min-width: 0;                   /* lets the strip shrink to make room */
+    width: auto;
+    gap: 0;
+  }
+
+  .socialIcon {
+    flex: 1 1 0;                    /* all 8 share the available width equally */
+    width: auto;
+    max-width: 24px;
+    height: 24px;
+    min-width: 18px;
+  }
+
+  .socialIcon svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .trendBtn {
+    order: 2;
+    flex-shrink: 0;                 /* button never gets squeezed off */
+    margin-left: 6px;
+    width: auto;
+    justify-content: center;
+    padding: 5px 8px;
+    border-radius: 999px;
+    box-sizing: border-box;
+    font-size: 8px;
+    letter-spacing: 0.04em;
+    gap: 3px;
+  }
+
+  .trendBtn svg {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .socialBar {
+    padding: 10px 10px 12px;
+  }
+  .socialLabel,
+  .socialDivider {
+    display: none;
+  }
+  .socialIcons {
+    gap: 0;
+  }
+  .socialIcon {
+    width: 22px;
+    height: 22px;
+    min-width: 18px;
+  }
+  .trendBtn {
+    padding: 5px 7px;
+  }
+  .trendBtnLabel {
+    display: none;                  /* icon-only "Add on Google" pill */
+  }
+}
+
+@media (max-width: 360px) {
+  .socialBar {
+    padding: 10px 8px 12px;
+  }
+  .socialIcon {
+    width: 20px;
+    height: 20px;
+    min-width: 16px;
+  }
+  .socialIcon svg {
+    width: 11px;
+    height: 11px;
+  }
+  .trendBtn {
+    padding: 5px 6px;
+    gap: 3px;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   REDUCED MOTION
+   ══════════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .tickerInner {
+    animation: none;
+  }
+  .tickerDot,
+  .trendBtnDot,
+  .liveDot {
+    animation: none;
+  }
+  .loadMoreSpinner {
+    animation-duration: 1.4s;
+  }
+  .articleLead,
+  .articleSecondary,
+  .articleImg,
+  .articleCompactLink {
+    transition: none;
+  }
+}

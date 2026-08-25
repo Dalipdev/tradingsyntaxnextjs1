@@ -1,0 +1,169 @@
+/* FIX: this module previously set its own `margin-top: 24px` on
+   `.newsletter` while the parent (Editorial.module.css) ALSO sets
+   margin on the `.mobileNewsletter` / `.desktopNewsletter` wrapper
+   class that gets composed with this one via className. Two rules
+   both claiming ownership of the same gap is exactly the kind of
+   thing that produces "sometimes too much gap, sometimes too little"
+   depending on which one wins the cascade. The parent wrapper is now
+   the single source of truth for outer spacing — this file only
+   controls the widget's own internal padding and look. */
+.newsletter {
+  padding: 20px 0;
+}
+
+.eyebrow {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+  margin-bottom: 6px;
+}
+
+.title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0 0 8px;
+  line-height: 1.3;
+}
+
+.description {
+  font-size: 12.5px;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin: 0 0 14px;
+}
+
+/* ─── Form ─────────────────────────────────────────────────────────────────── */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.formInline {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+}
+
+.input {
+  width: 100%;
+  padding: 9px 12px;
+  font-size: 12.5px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg);
+  color: var(--color-text);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  box-sizing: border-box;
+}
+
+.input::placeholder {
+  color: var(--color-text-faint);
+}
+
+.input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-dim);
+}
+
+.input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* FIX: flat color-swap hover replaced with a subtle lift + glow so the
+   primary CTA reads as a premium, tactile control rather than a plain
+   HTML button. Matches the gold "shadow-gold" language already used
+   elsewhere on the site (masthead/hero buttons) instead of introducing
+   a new one-off style. */
+.button {
+  padding: 9px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  background: var(--color-accent);
+  color: #ffffff;
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(184, 134, 46, 0.18);
+  transition: background 0.15s ease, box-shadow 0.15s ease,
+              transform 0.15s ease, border-color 0.15s ease;
+}
+
+.button:hover:not(:disabled) {
+  background: var(--color-accent-hover);
+  border-color: var(--color-accent-hover);
+  box-shadow: 0 10px 22px rgba(184, 134, 46, 0.26);
+  transform: translateY(-1px);
+}
+
+.button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(184, 134, 46, 0.2);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* No separate dark-mode block needed — --color-* tokens above already
+   flip automatically on body[data-theme="dark"] via globals.css. */
+
+/* ─── Feedback ─────────────────────────────────────────────────────────────── */
+.successMsg {
+  font-size: 12.5px;
+  color: var(--color-up);
+  padding: 10px 0 2px;
+}
+
+.errorMsg {
+  font-size: 12px;
+  color: var(--color-down);
+  margin: 2px 0 0;
+}
+
+.finePrint {
+  font-size: 10.5px;
+  color: var(--color-text-faint);
+  margin: 8px 0 0;
+  line-height: 1.5;
+}
+
+/* ─── Variants ─────────────────────────────────────────────────────────────── */
+
+/* compact: tighter spacing, no description/fine-print */
+.variant_compact {
+  padding: 12px 0;
+}
+
+.variant_compact .title {
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+/* inline: horizontal row layout */
+.variant_inline {
+  padding: 12px 0;
+}
+
+.variant_inline .title {
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+.variant_inline .formInline .input {
+  flex: 1;
+  min-width: 0;
+}

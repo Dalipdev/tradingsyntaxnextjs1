@@ -1,0 +1,32 @@
+# Robots.txt for TradingSyntax
+# Allow all search engines to crawl the site
+
+User-agent: *
+Allow: /
+Disallow: /dashboard
+Disallow: /editor
+Disallow: /signin
+Disallow: /signup
+Disallow: /settings
+Disallow: /api/
+Disallow: /_next/
+Disallow: /public/
+Crawl-delay: 2
+
+# Google specific
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+# Bing specific
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Site map location
+Sitemap: https://tradingsyntax.com/sitemap.xml
+Sitemap: https://tradingsyntax.com/sitemap-blogs.xml
+Sitemap: https://tradingsyntax.com/sitemap-users.xml
+
+# Tell robots to check back frequently
+Request-rate: 30/60

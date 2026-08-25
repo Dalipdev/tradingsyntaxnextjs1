@@ -1,0 +1,3 @@
+Contact: security@tradingsyntax.com
+Expires: 2025-12-31T00:00:00.000Z
+Preferred-Languages: en

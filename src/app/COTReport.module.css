@@ -1,0 +1,568 @@
+.cotSection {
+  --serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --sans:  'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  --mono:  'IBM Plex Mono', 'Courier New', monospace;
+
+  --ink:        var(--color-text);
+  --ink2:       var(--color-text-muted);
+  --ink3:       var(--color-text-faint);
+  --ink4:       var(--color-text-faint);
+  --ink5:       var(--color-border-strong);
+  --rule:       var(--color-border);
+  --rule2:      var(--color-border-soft);
+  --cream:      var(--color-bg);
+  --parchment:  var(--color-bg-subtle);
+  --surface:    var(--color-surface);
+  --accent:     var(--color-accent);
+  --danger:     var(--color-down);
+  --cot-ring-track:  var(--color-border);
+  --tab-bg:          var(--color-bg-subtle);
+  --tab-active:      var(--color-text);
+  --tab-active-text: var(--color-bg);
+
+  padding: 32px 0 8px;
+  font-family: var(--sans);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* No dark-mode override block needed — every --ink/--cream/etc variable
+   above is aliased directly to globals.css tokens, which already flip
+   correctly on body[data-theme="dark"]. */
+
+/* ── Header ── */
+.cotHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-bottom: 14px;
+  border-bottom: 2px solid var(--ink);
+}
+
+.cotEyebrow {
+  display: block;
+  font-family: var(--sans);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.cotTitle {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 0;
+}
+
+.cotMetaRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cotDate {
+  font-family: var(--sans);
+  font-size: 9.5px;
+  color: var(--ink4);
+}
+
+.cotBadge {
+  font-family: var(--sans);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  background: var(--parchment);
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 3px 10px;
+}
+
+/* ── Live row ── */
+.cotLiveRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0 16px;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cotLivePill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--sans);
+  font-size: 9.5px;
+  color: var(--ink4);
+}
+
+.cotDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+  animation: cotPulse 2s infinite;
+}
+
+@keyframes cotPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.25; }
+}
+
+.cotLiveRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cotUpdated {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--ink4);
+}
+
+.cotRefreshBtn {
+  font-family: var(--sans);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink4);
+  background: none;
+  border: 1px solid var(--rule);
+  padding: 4px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.cotRefreshBtn:hover {
+  color: var(--ink);
+  border-color: var(--ink5);
+}
+
+/* ── Tabs ── */
+.cotTabs {
+  display: flex;
+  gap: 4px;
+  padding-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.cotTab {
+  font-family: var(--sans);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink4);
+  padding: 5px 14px;
+  border: 1px solid var(--rule);
+  background: var(--tab-bg);
+  cursor: pointer;
+  border-radius: 999px;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.cotTab:hover {
+  color: var(--ink);
+  border-color: var(--ink5);
+}
+
+.cotTabOn {
+  background: var(--tab-active);
+  color: var(--tab-active-text);
+  border-color: var(--tab-active);
+}
+
+/* ── Loader ── */
+.cotLoader {
+  padding: 48px 0;
+  text-align: center;
+  font-family: var(--sans);
+  font-size: 11.5px;
+  color: var(--ink4);
+}
+
+/* ── Summary stat grid ── */
+.cotStatGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 1px solid var(--rule);
+  margin-bottom: 22px;
+}
+
+.cotStat {
+  padding: 14px 16px;
+  border-right: 1px solid var(--rule);
+}
+
+.cotStat:last-child {
+  border-right: none;
+}
+
+.cotStatLabel {
+  font-family: var(--sans);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--ink4);
+  margin-bottom: 5px;
+}
+
+.cotStatVal {
+  font-family: var(--mono);
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  line-height: 1.1;
+  margin-bottom: 3px;
+}
+
+.cotStatChg {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 500;
+}
+
+.cotStatSub {
+  font-family: var(--sans);
+  font-size: 9px;
+  color: var(--ink4);
+}
+
+/* ── Color utilities ── */
+.up { color: var(--accent); }
+.dn { color: var(--danger); }
+
+/* ── Section label ── */
+.cotSecLabel {
+  font-family: var(--sans);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink4);
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 2px;
+}
+
+/* ── Bars section ── */
+.cotBarsSection {
+  margin-bottom: 22px;
+}
+
+.cotBarHeader {
+  display: grid;
+  grid-template-columns: 84px 1fr 62px;
+  gap: 8px;
+  padding: 5px 0 3px;
+  border-bottom: 1px solid var(--rule2);
+  margin-bottom: 2px;
+}
+
+.cotBarHeaderSides {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.cotBarHeaderLbl {
+  font-family: var(--sans);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink5);
+}
+
+.cotBarRow {
+  display: grid;
+  grid-template-columns: 84px 1fr 62px;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--rule2);
+}
+
+.cotBarRow:last-child {
+  border-bottom: none;
+}
+
+.cotBarName {
+  font-family: var(--sans);
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--ink2);
+}
+
+.cotBarTrack {
+  position: relative;
+  height: 18px;
+  background: var(--parchment);
+  border: 1px solid var(--rule);
+  overflow: hidden;
+}
+
+.cotBarCenter {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--ink5);
+  z-index: 2;
+}
+
+.cotBarFill {
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+}
+
+.cotBarLng {
+  left: 50%;
+  background: var(--accent);
+  opacity: 0.7;
+}
+
+.cotBarSht {
+  right: 50%;
+  background: var(--danger);
+  opacity: 0.7;
+}
+
+.cotBarPct {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  text-align: right;
+}
+
+/* ── Two-column layout ── */
+.cotTwoCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 0 0 22px;
+}
+
+/* ── Sentiment rings ── */
+.cotSentRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--rule2);
+}
+
+.cotSentRow:last-child {
+  border-bottom: none;
+}
+
+.cotRingWrap {
+  position: relative;
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+}
+
+.cotRingLbl {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.cotRingBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.cotRingName {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink2);
+  margin-bottom: 1px;
+}
+
+.cotRingSub {
+  font-family: var(--sans);
+  font-size: 9px;
+  color: var(--ink4);
+  margin-bottom: 5px;
+}
+
+.cotRingTrack {
+  height: 3px;
+  background: var(--parchment);
+  border: 1px solid var(--rule);
+  overflow: hidden;
+}
+
+.cotRingFill {
+  height: 100%;
+}
+
+.cotRingVal {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  text-align: right;
+  min-width: 50px;
+  flex-shrink: 0;
+}
+
+.cotRingValSub {
+  display: block;
+  font-family: var(--sans);
+  font-size: 8.5px;
+  color: var(--ink4);
+  text-align: right;
+  margin-top: 1px;
+}
+
+/* ── Table ── */
+.cotTable {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.cotTable th {
+  font-family: var(--sans);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink4);
+  padding: 6px 0;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+}
+
+.cotTable th:not(:first-child) {
+  text-align: right;
+}
+
+.cotTable td {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--ink2);
+  padding: 7px 0;
+  border-bottom: 1px solid var(--rule2);
+}
+
+.cotTable td:not(:first-child) {
+  text-align: right;
+}
+
+.cotTable tr:last-child td {
+  border-bottom: none;
+}
+
+.cotTdName {
+  font-family: var(--sans) !important;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--ink2);
+}
+
+/* ── History chart ── */
+.cotHistSection {
+  margin-bottom: 4px;
+}
+
+.cotChartLabel {
+  font-family: var(--sans);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink4);
+  margin-bottom: 6px;
+}
+
+.cotLegend {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.cotLegItem {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--sans);
+  font-size: 9px;
+  color: var(--ink4);
+}
+
+.cotLegSw {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.cotChartWrap {
+  position: relative;
+  width: 100%;
+  height: 140px;
+}
+
+/* ── Footnote ── */
+.cotFootnote {
+  font-family: var(--sans);
+  font-size: 9px;
+  color: var(--ink4);
+  padding-top: 14px;
+  border-top: 1px solid var(--rule);
+  margin-top: 20px;
+  line-height: 1.6;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .cotTwoCol {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .cotStatGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .cotStat:nth-child(2) { border-right: none; }
+  .cotStat:nth-child(3) { border-top: 1px solid var(--rule); }
+  .cotBarHeader,
+  .cotBarRow {
+    grid-template-columns: 68px 1fr 52px;
+  }
+  .cotBarName {
+    font-size: 9.5px;
+  }
+}
