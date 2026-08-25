@@ -1,12 +1,11 @@
-// app/signin/SignInClient.js
 'use client'
 
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { UserContext } from "@/components/Providers"
 import UserAuthForm from "@/components/userAuthForm.component"
 
-export default function SignInClient() {
+function SignInContent() {
   const { userAuth } = useContext(UserContext)
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -22,4 +21,12 @@ export default function SignInClient() {
   if (userAuth?.access_token) return null
 
   return <UserAuthForm type="sign-in" />
+}
+
+export default function SignInClient() {
+  return (
+    <Suspense fallback={null}>
+      <SignInContent />
+    </Suspense>
+  )
 }
