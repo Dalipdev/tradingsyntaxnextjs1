@@ -9,7 +9,10 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://tradingsyntax.com
 const MAX_URLS = 50000 // Google's per-file cap
 const BLOG_FETCH_LIMIT = 5000 // backend's /search-blogs applies this as a single-page .limit()
 
-export const revalidate = 3600 // Regenerate at most once per hour
+// Safety-net revalidation window. On-demand revalidation (via /api/revalidate)
+// should make this fire almost never in practice — this just guarantees the
+// sitemap can never be stale for more than 5 minutes even if a webhook is missed.
+export const revalidate = 300
 
 export async function GET() {
   try {
@@ -17,7 +20,7 @@ export async function GET() {
 
     console.log(`Sitemap build: ${blogs.length} blogs, ${users.length} users found`)
 
-    // --- Static pages --- 
+    // --- Static pages ---
     // Only publicly indexable pages belong here. Keep private/auth pages
     // (e.g. /dashboard) out — block them in robots.txt instead.
     const staticPages = [
@@ -93,7 +96,9 @@ ${allEntries.slice(0, MAX_URLS).join('\n')}
       status: 200,
       headers: {
         'Content-Type': 'application/xml; charset=utf-8',
-        'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
+        // Matches the shortened revalidate window above. CDN can serve a
+        // stale copy for up to 5 min while revalidating in the background.
+        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
       },
     })
   } catch (error) {
@@ -136,6 +141,7 @@ async function fetchBlogs() {
         page: 1,
         limit: BLOG_FETCH_LIMIT,
       }),
+      cache: 'no-store', // always hit the backend fresh — don't reuse a cached fetch response
       signal: AbortSignal.timeout(20000), // Render free tier can be slow on cold DB queries
     })
 
@@ -159,6 +165,7 @@ async function fetchBlogs() {
 async function fetchUsers() {
   try {
     const response = await fetch(`${SERVER_DOMAIN}/all-users`, {
+      cache: 'no-store', // always hit the backend fresh
       signal: AbortSignal.timeout(20000),
     })
 
