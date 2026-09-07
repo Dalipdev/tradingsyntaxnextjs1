@@ -64,7 +64,7 @@ export default function NewsletterWidget({
   eyebrow     = 'Executive Intelligence',
   title       = 'The Briefing Desk',
   description = 'Institutional order flow mechanics, alpha generation models, and macro updates directly to your terminal.',
-  placeholder = 'trader@institution.com',
+  placeholder = 'trader@gmail.com',
   buttonText  = 'Register For Access',
   finePrint   = 'Distributed without advertising. Unsubscribe anytime.',
   onSubmit,
