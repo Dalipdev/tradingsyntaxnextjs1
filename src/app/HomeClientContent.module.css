@@ -926,7 +926,7 @@
 .articleLeadTitle {
   font-family: var(--serif);
   font-optical-sizing: auto;
-  font-size: clamp(20px, 2.8vw, 30px);
+  font-size: 33px;
   font-weight: 700;
   line-height: 1.08;
   color: #131722;
