@@ -1080,12 +1080,7 @@
     border-bottom-color: var(--cosmic-line);
   }
 }
-.articleImgBlurBg {
-  object-fit: cover;
-  filter: blur(24px) saturate(1.15) brightness(0.9);
-  transform: scale(1.15); /* hides the blur's soft edges */
-  z-index: 0;
-}
+
 
 .articleLeadImageWrap .articleImg {
   object-fit: contain;
