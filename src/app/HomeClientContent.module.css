@@ -909,9 +909,9 @@
   color: inherit !important;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 900px) and (min-width: 641px) {
   .articleLeadLink {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr minmax(160px, 26%);
   }
 }
 
@@ -935,11 +935,12 @@
   transition: color 0.15s ease;
   word-break: break-word;
   overflow-wrap: break-word;
+  text-wrap: balance; 
 }
 
 @media (max-width: 480px) {
   .articleLeadTitle {
-    font-size: 20px;
+    font-size: 19px;   /* was 20px */
     line-height: 1.2;
   }
 }
@@ -1155,6 +1156,7 @@
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+   text-wrap: balance;  
 }
 
 @media (max-width: 480px) {
@@ -1324,6 +1326,7 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  text-wrap: balance;  
 }
 
 /* FIX: this title had no dark-theme override at all — it stayed on the
