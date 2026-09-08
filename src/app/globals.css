@@ -1307,22 +1307,22 @@ body[data-theme="dark"]::before {
     padding-top: 0.2rem;
   }
 
-  .ts_editorial_card_thumb_wrap {
-    flex-shrink: 0;
-    width: 140px;
-    height: 140px;
-    position: relative;
-    overflow: hidden;
-    border-radius: var(--radius-lg);
-    background: var(--color-surface-2);
-    border: 1px solid var(--color-border);
-  }
+.ts_editorial_card_thumb_wrap {
+  flex-shrink: 0;
+  width: 180px;
+  height: 128px;             /* was 140 / 140 (square) */
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+}
 
-  .ts_editorial_card_img {
-    object-fit: cover;
-    object-position: center;
-    display: block;
-  }
+.ts_editorial_card_img {
+  object-fit: contain;       /* was cover */
+  object-position: center;
+  display: block;
+}
 
   @media (max-width: 640px) {
     .ts_editorial_row_item {
