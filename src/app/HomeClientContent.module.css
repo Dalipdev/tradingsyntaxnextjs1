@@ -1071,6 +1071,16 @@
   }
 }
 
+  /* ↓ new — paste these as their own separate blocks */
+  .articleLeadLink {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .articleLeadContent {
+    order: 1;
+  }
+}
 /* ══════════════════════════════════════════════════════════════════════
    ARTICLE — SECONDARY (index 1 & 2)
    THEME-AWARE, same approach as the lead card above: light card + dark
