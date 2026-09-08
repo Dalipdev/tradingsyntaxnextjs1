@@ -1080,6 +1080,16 @@
   }
 }
 
+
+.articleLeadImageWrap .articleImg {
+  object-fit: contain;
+  background: var(--parchment); /* fills the empty space contain leaves behind */
+}
+
+[data-theme='dark'] .articleLeadImageWrap .articleImg {
+  background: var(--cosmic-black);
+}
+
 /* ══════════════════════════════════════════════════════════════════════
    ARTICLE — SECONDARY (index 1 & 2)
    THEME-AWARE, same approach as the lead card above: light card + dark
