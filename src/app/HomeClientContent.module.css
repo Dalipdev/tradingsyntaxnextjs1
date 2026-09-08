@@ -1037,8 +1037,6 @@
   overflow: hidden;
   border-left: 1px solid var(--rule);
   display: block;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
 }
 
 .articleLeadImageWrap::after {
@@ -1068,7 +1066,8 @@
 
   .articleLeadImageWrap {
     order: -1;
-    aspect-ratio: 2 / 1;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
     min-height: 0;
     border-left: none;
     border-bottom: 1px solid var(--rule);
