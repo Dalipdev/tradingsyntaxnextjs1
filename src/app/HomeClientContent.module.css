@@ -802,9 +802,10 @@
 }
 
 .articleImg {
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
-  transition: transform 0.6s cubic-bezier(0.22, 0.9, 0.3, 1);
+  width: 100%;
+  height: 100%;
 }
 
 /* Placeholder for posts with no banner image.
