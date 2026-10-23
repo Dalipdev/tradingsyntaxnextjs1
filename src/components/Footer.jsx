@@ -73,12 +73,11 @@ const COL3 = {
 };
 
 const COL4 = {
-  heading: "ORBITAL HUB",
+  heading: "TRADING HUB",
   lines: [
-    "subspace@tradingsyntax.io",
-    "Comms: Array-7 // Quantum Band",
-    "Sector 4, Kepler-186f Orbit,",
-    "Milky Way - Andromeda Convergence",
+    "tradingjunction7@gmail.com",
+    "Comms: Tower B, Tech Park",
+    "Chandigarh, 160017, India",
   ],
 };
 
