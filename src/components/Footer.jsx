@@ -52,7 +52,7 @@ const COL1 = {
 };
 
 const COL2 = {
-  heading: "PEOPLE",
+  heading: "COMPANY",
   links: [
     { label: "About", href: "/features" },
     { label: "Blog", href: "/pricing" },
@@ -63,12 +63,12 @@ const COL2 = {
 };
 
 const COL3 = {
-  heading: "SOCIALS",
+  heading: "RESEARCH",
   links: [
-    { label: "LinkedIn", href: "https://www.linkedin.com/company/tradingsyntax/" },
-    { label: "Instagram", href: "https://www.instagram.com/tradingsyntax?igsi=c3htNTA0ZmZieGgz" },
-    { label: "X.com", href: "https://x.com/tradingsyntax" },
-    { label: "YouTube", href: "https://youtube.com/@tradingsyntax?si=b6W1BzP2B1YhAk2y" },
+    { label: "Macro Intelligence", href: "https://www.linkedin.com/company/tradingsyntax/" },
+    { label: "AI & Quant", href: "https://www.instagram.com/tradingsyntax?igsi=c3htNTA0ZmZieGgz" },
+    { label: "Market Structure", href: "https://x.com/tradingsyntax" },
+    { label: "Institutional Flow", href: "https://youtube.com/@tradingsyntax?si=b6W1BzP2B1YhAk2y" },
   ],
 };
 
