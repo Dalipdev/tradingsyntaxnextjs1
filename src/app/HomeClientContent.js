@@ -12,15 +12,6 @@ import NewsletterWidget from '@/components/Newsletterwidget';
 import Masthead from '@/components/Masthead';
 
 // ─── Lazy-load error fallback ─────────────────────────────────────────────
-// FIX: both lazy components below previously caught a failed dynamic
-// import() and returned `{ default: () => null }` — meaning any load
-// failure (slow/unstable connection, dev-server chunk hiccup over a
-// LAN IP, transient network blip) rendered as *nothing at all*: no
-// error, no retry, just missing content with no way to tell the user
-// even knew something failed. That's indistinguishable from "it's just
-// slow" or "it's broken", which is exactly the confusing symptom of a
-// component silently not appearing on some networks/devices. This
-// fallback surfaces a real, visible message plus a retry action instead.
 function LazyLoadError({ label, onRetry }) {
   return (
     <div
@@ -339,8 +330,6 @@ function SectionNav({ pageState, categories, onSelect }) {
 // By design, only the first three articles (the lead hero + the two
 // secondary cards) carry imagery. Everything from index 3 onward renders
 // as a text-only "ledger" row — see .articleCompact* in the stylesheet.
-// This keeps exactly three images on screen at once instead of a wall of
-// small, competing thumbnails.
 function ArticleCard({ blog, index }) {
   const isLead      = index === 0;
   const isSecondary = index === 1 || index === 2;
@@ -352,10 +341,10 @@ function ArticleCard({ blog, index }) {
   const imgSrc      = getBlogBanner(blog);
   const section     = CATEGORY_META[tag]?.section || 'Executive Briefing';
   const catLabel    = CATEGORY_META[tag]?.label || tag;
- 
+
   const [imgFailed, setImgFailed] = useState(false);
   const showImage = (isLead || isSecondary) && imgSrc && !imgFailed;
- 
+
   if (isLead) {
     return (
       <AnimationWrapper transition={{ duration: 0.2, delay: 0 }}>
@@ -402,7 +391,7 @@ function ArticleCard({ blog, index }) {
       </AnimationWrapper>
     );
   }
- 
+
   if (isSecondary) {
     return (
       <AnimationWrapper transition={{ duration: 0.2, delay: index * 0.05 }}>
@@ -449,13 +438,13 @@ function ArticleCard({ blog, index }) {
       </AnimationWrapper>
     );
   }
- 
+
   // ── Ledger row (index 3+) — text only, no image ──────────────────────
   const title         = blog?.title || 'Untitled Report';
   const deck          = (blog?.des || '').trim();
   const publishedAt   = blog?.publishedAt || blog?.createdAt;
   const authorInitial = author.trim().charAt(0).toUpperCase() || 'T';
- 
+
   return (
     <AnimationWrapper transition={{ duration: 0.2, delay: 0 }}>
       <article
@@ -465,7 +454,7 @@ function ArticleCard({ blog, index }) {
       >
         <meta itemProp="url" content={href} />
         {publishedAt && <meta itemProp="datePublished" content={publishedAt} />}
- 
+
         <Link
           href={href}
           className={styles.articleCompactLink}
@@ -478,17 +467,17 @@ function ArticleCard({ blog, index }) {
                 {catLabel || section}
               </span>
             )}
- 
+
             <h3 className={styles.articleCompactTitle} itemProp="headline">
               {title}
             </h3>
- 
+
             {deck && (
               <p className={styles.compactDeck} itemProp="description">
                 {deck}
               </p>
             )}
- 
+
             <div className={styles.compactByline}>
               <span className={styles.compactAvatar} aria-hidden="true">
                 {authorInitial}
@@ -508,7 +497,7 @@ function ArticleCard({ blog, index }) {
               <span className={styles.compactMeta}>{readTime}</span>
             </div>
           </div>
- 
+
           <span className={styles.compactArrow} aria-hidden="true">
             <svg
               width="16" height="16" viewBox="0 0 24 24" fill="none"
@@ -523,235 +512,6 @@ function ArticleCard({ blog, index }) {
     </AnimationWrapper>
   );
 }
- 
- 
-// ════════════════════════════════════════════════════════════════════
-// 2) ItemList JSON-LD (SEO). In HomeClientContent's returned JSX, add
-//    this directly after <Masthead variant="home" />:
-// ════════════════════════════════════════════════════════════════════
- 
-      {blogs?.results?.length > 0 && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'ItemList',
-              itemListElement: blogs.results.slice(0, 20).map((b, i) => ({
-                '@type': 'ListItem',
-                position: i + 1,
-                url: `${process.env.NEXT_PUBLIC_SITE_URL || ''}${getBlogUrl(b)}`,
-                name: resolveBlogItem(b)?.title || '',
-              })),
-            }),
-          }}
-        />
-      )}function ArticleCard({ blog, index }) {
-  const isLead      = index === 0;
-  const isSecondary = index === 1 || index === 2;
-  const tag         = getBlogTag(blog);
-  const author      = getAuthorName(blog);
-  const date        = formatDate(blog?.publishedAt || blog?.createdAt);
-  const readTime    = getReadTime(blog);
-  const href        = getBlogUrl(blog);
-  const imgSrc      = getBlogBanner(blog);
-  const section     = CATEGORY_META[tag]?.section || 'Executive Briefing';
-  const catLabel    = CATEGORY_META[tag]?.label || tag;
- 
-  const [imgFailed, setImgFailed] = useState(false);
-  const showImage = (isLead || isSecondary) && imgSrc && !imgFailed;
- 
-  if (isLead) {
-    return (
-      <AnimationWrapper transition={{ duration: 0.2, delay: 0 }}>
-        <article className={styles.articleLead}>
-          <Link href={href} className={styles.articleLeadLink}>
-            <div className={styles.articleLeadContent}>
-              <div className={styles.articleEyebrow}>
-                <span className={styles.articleSectionTag}>{section}</span>
-                {catLabel && (
-                  <>
-                    <span className={styles.eyebrowSep}>·</span>
-                    <span className={styles.articleCategoryLabel}>{catLabel}</span>
-                  </>
-                )}
-              </div>
-              <h3 className={styles.articleLeadTitle}>{blog?.title || 'Untitled Report'}</h3>
-              {blog?.des && <p className={styles.articleLeadDeck}>{blog.des}</p>}
-              <div className={styles.bylineRow}>
-                <span className={styles.bylineAuthor}>By {author}</span>
-                <span className={styles.bylineSep}>·</span>
-                <time suppressHydrationWarning dateTime={blog?.publishedAt || blog?.createdAt}>{date}</time>
-                <span className={styles.bylineSep}>·</span>
-                <span>{readTime}</span>
-              </div>
-            </div>
-            <div className={styles.articleLeadImageWrap}>
-              {showImage ? (
-                <Image
-                  src={imgSrc}
-                  alt={blog?.title || 'Lead article image'}
-                  fill
-                  priority
-                  unoptimized
-                  className={styles.articleImg}
-                  sizes="(max-width: 640px) 100vw, 40vw"
-                  onError={() => setImgFailed(true)}
-                />
-              ) : (
-                <div className={styles.articleImgPlaceholder} />
-              )}
-            </div>
-          </Link>
-        </article>
-      </AnimationWrapper>
-    );
-  }
- 
-  if (isSecondary) {
-    return (
-      <AnimationWrapper transition={{ duration: 0.2, delay: index * 0.05 }}>
-        <article className={styles.articleSecondary}>
-          <Link href={href} className={styles.articleSecondaryLink}>
-            <div className={styles.articleThumbWrap}>
-              {showImage ? (
-                <Image
-                  src={imgSrc}
-                  alt={blog?.title || 'Article thumbnail'}
-                  fill
-                  unoptimized
-                  priority={index === 1}
-                  className={styles.articleImg}
-                  sizes="(max-width: 640px) 100vw, 50vw"
-                  onError={() => setImgFailed(true)}
-                />
-              ) : (
-                <div className={styles.articleImgPlaceholder} />
-              )}
-            </div>
-            <div className={styles.articleSecondaryContent}>
-              <div className={styles.articleEyebrow}>
-                <span className={styles.articleSectionTag}>{section}</span>
-                {catLabel && (
-                  <>
-                    <span className={styles.eyebrowSep}>·</span>
-                    <span className={styles.articleCategoryLabel}>{catLabel}</span>
-                  </>
-                )}
-              </div>
-              <h3 className={styles.articleSecondaryTitle}>{blog?.title || 'Untitled Report'}</h3>
-              {blog?.des && <p className={styles.articleSecondaryDeck}>{blog.des}</p>}
-              <div className={styles.bylineRow}>
-                <span className={styles.bylineAuthor}>By {author}</span>
-                <span className={styles.bylineSep}>·</span>
-                <time suppressHydrationWarning dateTime={blog?.publishedAt || blog?.createdAt}>{date}</time>
-                <span className={styles.bylineSep}>·</span>
-                <span>{readTime}</span>
-              </div>
-            </div>
-          </Link>
-        </article>
-      </AnimationWrapper>
-    );
-  }
- 
-  // ── Ledger row (index 3+) — text only, no image ──────────────────────
-  const title         = blog?.title || 'Untitled Report';
-  const deck          = (blog?.des || '').trim();
-  const publishedAt   = blog?.publishedAt || blog?.createdAt;
-  const authorInitial = author.trim().charAt(0).toUpperCase() || 'T';
- 
-  return (
-    <AnimationWrapper transition={{ duration: 0.2, delay: 0 }}>
-      <article
-        className={styles.articleCompact}
-        itemScope
-        itemType="https://schema.org/BlogPosting"
-      >
-        <meta itemProp="url" content={href} />
-        {publishedAt && <meta itemProp="datePublished" content={publishedAt} />}
- 
-        <Link
-          href={href}
-          className={styles.articleCompactLink}
-          aria-label={`${title} — ${catLabel || section}, by ${author}`}
-          itemProp="mainEntityOfPage"
-        >
-          <div className={styles.articleCompactBody}>
-            {(catLabel || section) && (
-              <span className={styles.compactCategory} itemProp="articleSection">
-                {catLabel || section}
-              </span>
-            )}
- 
-            <h3 className={styles.articleCompactTitle} itemProp="headline">
-              {title}
-            </h3>
- 
-            {deck && (
-              <p className={styles.compactDeck} itemProp="description">
-                {deck}
-              </p>
-            )}
- 
-            <div className={styles.compactByline}>
-              <span className={styles.compactAvatar} aria-hidden="true">
-                {authorInitial}
-              </span>
-              <span className={styles.compactAuthor} itemProp="author">
-                {author}
-              </span>
-              <span className={styles.compactDot} aria-hidden="true" />
-              <time
-                suppressHydrationWarning
-                dateTime={publishedAt}
-                className={styles.compactMeta}
-              >
-                {date}
-              </time>
-              <span className={styles.compactDot} aria-hidden="true" />
-              <span className={styles.compactMeta}>{readTime}</span>
-            </div>
-          </div>
- 
-          <span className={styles.compactArrow} aria-hidden="true">
-            <svg
-              width="16" height="16" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" strokeWidth="2"
-              strokeLinecap="round" strokeLinejoin="round"
-            >
-              <path d="M5 12h14M13 6l6 6-6 6" />
-            </svg>
-          </span>
-        </Link>
-      </article>
-    </AnimationWrapper>
-  );
-}
- 
- 
-// ════════════════════════════════════════════════════════════════════
-// 2) ItemList JSON-LD (SEO). In HomeClientContent's returned JSX, add
-//    this directly after <Masthead variant="home" />:
-// ════════════════════════════════════════════════════════════════════
- 
-      {blogs?.results?.length > 0 && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'ItemList',
-              itemListElement: blogs.results.slice(0, 20).map((b, i) => ({
-                '@type': 'ListItem',
-                position: i + 1,
-                url: `${process.env.NEXT_PUBLIC_SITE_URL || ''}${getBlogUrl(b)}`,
-                name: resolveBlogItem(b)?.title || '',
-              })),
-            }),
-          }}
-        />
-      )}
 
 // ─── MinimalArticle ───────────────────────────────────────────────────────────
 function MinimalArticle({ blog, index }) {
@@ -792,13 +552,6 @@ function SidebarMarketsWidget() {
       .slice(0, 8);
   }, []);
 
-  // FIX: 'medium' previously fell back to var(--brass, #C9A227). Since
-  // --brass is now a near-white monochrome token (not the old gold), the
-  // CSS var resolves and the fallback #C9A227 never gets a chance to
-  // apply — so the "medium priority" dot rendered near-invisible on the
-  // light sidebar. Using a plain hex value here keeps it visible and
-  // theme-independent, since it's a semantic status color rather than a
-  // brand accent that should follow light/dark mode.
   const tagColor = (tag) =>
     tag === 'high'   ? 'var(--color-market-down, #E24B4A)'
   : tag === 'medium' ? '#C9A227'
@@ -1048,6 +801,26 @@ export default function HomeClientContent({ initialBlogs, initialTrending, serve
   return (
     <div className={styles.editorialOuter}>
       <Masthead variant="home" />
+
+      {/* ItemList JSON-LD (SEO) */}
+      {blogs?.results?.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'ItemList',
+              itemListElement: blogs.results.slice(0, 20).map((b, i) => ({
+                '@type': 'ListItem',
+                position: i + 1,
+                url: `${process.env.NEXT_PUBLIC_SITE_URL || ''}${getBlogUrl(b)}`,
+                name: resolveBlogItem(b)?.title || '',
+              })),
+            }),
+          }}
+        />
+      )}
+
       <MarketStrip />
       <SectionNav pageState={pageState} categories={categories} onSelect={handleCategorySelect} />
 
