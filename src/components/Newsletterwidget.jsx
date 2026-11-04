@@ -66,7 +66,7 @@ export default function NewsletterWidget({
   description = 'Institutional order flow mechanics, alpha generation models, and macro updates directly to your terminal.',
   placeholder = 'trader@gmail.com',
   buttonText  = 'Register For Access',
-  finePrint   = 'Distributed without advertising. Unsubscribe anytime.',
+  finePrint   = 'No Noise. Just intelligence, Unsubscribe anytime.',
   onSubmit,
   variant     = 'default',
 }) {
