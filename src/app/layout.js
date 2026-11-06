@@ -1,3 +1,4 @@
+
 import Script from 'next/script'
 import Providers from '@/components/Providers'
 import {
@@ -9,42 +10,133 @@ import Navbar from '@/components/navbar.component'
 import ConditionalFooter from '@/components/ConditionalFooter'
 import './globals.css'
 
+// ==========================================
+// WEBSITE METADATA
+// ==========================================
+
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL || 'https://tradingsyntax.com'
+
 export const metadata = {
-  title: 'TradingSyntax — Smart Money Concepts, Forex & Market Analysis',
+  metadataBase: new URL(SITE_URL),
+
+  applicationName: 'TradingSyntax',
+
+  title: {
+    default: 'TradingSyntax — Smart Money Concepts, Forex & Market Analysis',
+    template: '%s | TradingSyntax'
+  },
+
   description:
     'Institutional-grade trading insights: smart money concepts, forex price action, crypto analysis, and market structure.',
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || 'https://tradingsyntax.com'
-  ),
+
+  alternates: {
+    canonical: '/'
+  },
+
+  openGraph: {
+    type: 'website',
+    url: SITE_URL,
+    siteName: 'TradingSyntax',
+    title:
+      'TradingSyntax — Smart Money Concepts, Forex & Market Analysis',
+    description:
+      'Institutional-grade trading insights: smart money concepts, forex price action, crypto analysis, and market structure.',
+    locale: 'en_US'
+  },
+
+  twitter: {
+    card: 'summary_large_image',
+    title:
+      'TradingSyntax — Smart Money Concepts, Forex & Market Analysis',
+    description:
+      'Institutional-grade trading insights: smart money concepts, forex price action, crypto analysis, and market structure.'
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1
+    }
+  }
 }
 
-// FIX: theme is now applied to BOTH <html> AND <body> before paint.
-// Previously this only set data-theme on document.documentElement
-// (<html>), but the dark-mode CSS override in BlogPageClient.js
-// (and possibly other components) targets `body[data-theme="dark"]`.
-// Since <body> never got the attribute on initial load, that CSS
-// never matched until the theme toggle ran client-side and set it
-// on both elements — which is why toggling "fixed" the fade.
+// ==========================================
+// GOOGLE WEBSITE STRUCTURED DATA
+// ==========================================
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'TradingSyntax',
+  alternateName: [
+    'Trading Syntax',
+    'TradingSyntax.com'
+  ],
+  url: 'https://tradingsyntax.com/'
+}
+
+// ==========================================
+// THEME INITIALIZATION
+// ==========================================
+
 const themeScript = `
 (function() {
   try {
     var stored = sessionStorage.getItem('theme');
-    var theme = stored === 'dark' || stored === 'light' ? stored : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+
+    var theme =
+      stored === 'dark' || stored === 'light'
+        ? stored
+        : (
+            window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light'
+          );
+
     document.documentElement.setAttribute('data-theme', theme);
     document.body.setAttribute('data-theme', theme);
+
   } catch (e) {}
 })();
 `
 
+// ==========================================
+// ROOT LAYOUT
+// ==========================================
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
+
       <head>
+        {/* Google Analytics */}
         <GoogleAnalytics />
+
+        {/* Bing Webmaster Tracking */}
         <BingUetTracking />
+
+        {/* Meta Pixel */}
         <MetaPixel />
+
+        {/* Google Site Name Schema */}
+        <script
+          id="website-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteSchema)
+          }}
+        />
       </head>
+
       <body suppressHydrationWarning>
+
+        {/* Theme Script */}
         <Script
           id="theme-script"
           strategy="beforeInteractive"
@@ -52,13 +144,22 @@ export default function RootLayout({ children }) {
             __html: themeScript
           }}
         />
+
         <Providers>
-          <main className="site-main" id="main-content">
+
+          <main
+            className="site-main"
+            id="main-content"
+          >
             {children}
           </main>
+
           <ConditionalFooter />
+
           <Navbar />
+
         </Providers>
+
       </body>
     </html>
   )
